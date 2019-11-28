@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -o nounset
+
+test_code() {
+   rspec
+}
+
+main() {
+    test_code
+
+    if [[ $? -eq 0 ]]; then
+        git add . && git commit -m "$1"
+        echo "Go ahead!"
+    else
+        echo "Tests failed"
+    fi
+}
+
+if [[ $# -ne 1 ]]; then
+    echo "Usage: tdd \"commit message\""
+    exit 1
+fi
+
+main "$1"
